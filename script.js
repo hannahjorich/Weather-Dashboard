@@ -2,7 +2,7 @@
 
 
 //Dates
-var startDate = moment().format('M/DD/YYYY');  // Current Date
+var startDate = moment().format('M/DD/YYYY'); 
 var day1 = moment().add(1, 'days').format('M/DD/YYYY');
 var day2 = moment().add(2, 'days').format('M/DD/YYYY');
 var day3 = moment().add(3, 'days').format('M/DD/YYYY');
@@ -28,12 +28,6 @@ $(document).ready(function () {
 
     function searchWeather(searchTerm) {
         $("#dailyWeather").empty();
-        $("#fiveDay").empty();
-        $("#day1").empty();
-        $("#day2").empty();
-        $("#day3").empty();
-        $("#day4").empty();
-        $("#day5").empty();
         
         $.ajax({
             type: "GET",
@@ -42,14 +36,18 @@ $(document).ready(function () {
             success: function (res) {
                 console.log(res)
                 //create html with Jquery
-                var card = $("<div>").addClass("card");
+                var card = $("<div>").addClass("card col-md-2 ml-4 bg-primary text-white");
                 var cardBody = $("<div>").addClass("card-body");
-                var cardTitle = $("<h3>").addClass("card-title").text(res.name);
+                var cardTitle = $("<h3>").addClass("card-title").text(res.name + " " + startDate);
                 var temp = Math.round(res.main.temp);
-                var tempDisplay = $("<p>").addClass("card-text").text("tempture: " + temp + String.fromCharCode(176))
-                var tempDisplay = $("<p>").addClass("card-text").text("tempture: " + temp + String.fromCharCode(176))
+                var tempDisplay = $("<p>").addClass("card-text").text("tempture: " + temp + String.fromCharCode(176));
+                var humid = $("<p>").addClass("card-text").text("Humidity: " + res.main.humidity + "%");
+                var wind = $("<p>").addClass("card-text").text("Wind: " + res.wind.speed + "MPH");
+                var weatherIcon = response.weather[0].icon;
+                var image = $("<img>").attr("src", "https://openweathermap.org/img/wn/" + weatherIcon + ".png")
 
-                $("#dailyWeather").append(card.append(cardBody.append(cardTitle, tempDisplay)))
+
+                $("#dailyWeather").append(card.append(cardBody.append(cardTitle, tempDisplay, humid, wind, image)))
 
                 getForecast(res.coord.lat, res.coord.lon);
                 // getUVIndex();
