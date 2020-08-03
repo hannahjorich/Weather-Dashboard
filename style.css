@@ -51,6 +51,26 @@ p{
   padding:0;
 }
 
+.green {
+    color: green;
+}
+
+.orange {
+    color: orange;
+}
+
+.yellow {
+    color: yellow;
+}
+
+.red {
+    color: red;
+}
+
+.purple {
+    color: purple;
+}
+
 @media screen and (max-width: 576px) {
     .navbar-brand {
     text-align: center;

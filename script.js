@@ -35,36 +35,27 @@ $(document).ready(function () {
                 let windSpeed = res.wind.speed;
                 let humidity = res.main.humidity;
                 let cityDiv = $("<div class='city'>");
+                var weatherIcon = $("<img>");
+                weatherIcon.attr( "src","https://openweathermap.org/img/w/" + res.weather[0].icon + ".png");
                 let header = $("<h4>").text(res.name + " " + startDate);
                 let pOne = $("<p>").text("Temperature: " + temperature + String.fromCharCode(176) + "F");
                 let pTwo = $("<p>").text(`Wind Speed: ${windSpeed}MPH`);
                 let pThree = $("<p>").text("Humidity: " + humidity + "%")
+                let pFour = $("<p>").text("UV Index: ");
+                pFour.attr("class", "uv-container");
 
-                let color = "green";
-                let UVindex = res.value;
-                if(UVindex > 10){
-                    color = "red";
-                }
-                else if(UVindex > 4){
-                    color = "orange";
-                };
-
-
-                let uvSpan = $("<span>").text(res.value).css("color", color)
-                let pFour = $("<p>").text("UV Index: ").append(uvSpan);
-                cityDiv.append(header, pOne, pTwo, pThree, pFour);
-        
 
                 $("#weather-view").empty();
                 $("#weather-view").prepend(cityDiv);
 
+                cityDiv.append(header, weatherIcon, pOne, pTwo, pThree, pFour);
                 getForecast(res.coord.lat, res.coord.lon);
                 // getUVIndex();
             }
         })
 
     }
-
+    
     function getForecast(lat, lon) {
 
     $.ajax({
@@ -73,25 +64,39 @@ $(document).ready(function () {
         dataType: "json",
         success: function (forecastRes) {
             console.log(forecastRes)
+            let uv = $(".uv-container").text(`UV Index: ${forecastRes.daily[0].uvi}`);
+
+            let uvIndex = forecastRes.daily[0].uvi;
+            if (uvIndex <= 2) {
+                uv.addClass("green");
+               } else if (uvIndex <= 5) {
+                 uv.addClass("yellow");
+               } else if (uvIndex <= 7) {
+                   uv.addClass("orange");
+               } else if (uvIndex <= 10) {
+                   uv.addClass("red");
+               } else if (uvIndex <= 40) {
+                   uv.addClass("purple");
+               };
 
             for(var i = 1; i < 6; i ++ ) {
-                // console.log(forecastRes.daily[i])
+                console.log(forecastRes.daily[i])
 
                 //create a card per day
 
-            //     $("#day-0").empty();
-            //     $("#day-1").empty();
-            //     $("#day-2").empty();
-            //     $("#day-3").empty();
-            //     $("#day-4").empty();
+                $("#day-0").empty();
+                $("#day-1").empty();
+                $("#day-2").empty();
+                $("#day-3").empty();
+                $("#day-4").empty();
                 
-            //     let weather1 = $("<div class=day1>")
-            //     let date1 = $("<p>").text(day1);
-            //     let temp1 = $("<p>").text("Temperature: " + forecastRes.daily[0].temp.day + String.fromCharCode(176) + "F");
+                let weather1 = $("<div class=day1>")
+                let date1 = $("<p>").text(day1);
+                let temp1 = $("<p>").text("Temperature: " + forecastRes.daily[0].temp.day + String.fromCharCode(176) + "F");
                 
-            //     weather1.append(date1, temp1);
+                weather1.append(date1, temp1);
 
-            //     $("#day1").prepend(weather1);
+                $("#day1").prepend(weather1);
 
 
             }
