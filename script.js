@@ -15,20 +15,14 @@ var allCities = [];
 
 $(document).ready(function () {
     $(".btn").on("click", function () {
-        var citySearch = $("#city-input").val(); 
+        let citySearch = $("#city-input").val(); 
         // console.log(citySearch)
         event.preventDefault();
-      
-        allCities = JSON.parse(localStorage.getItem("allCities")) || []; // Get cities
-        allCities.push(citySearch); // pushes new cities entered to array 
-        localStorage.setItem("allCities", JSON.stringify(allCities)); //saves city input to local storage 
-      
-
+    
         searchWeather(citySearch)
     });
 
     function searchWeather(searchTerm) {
-        $("#dailyWeather").empty();
         
         $.ajax({
             type: "GET",
@@ -37,18 +31,32 @@ $(document).ready(function () {
             success: function (res) {
                 console.log(res)                
                 //create html with Jquery
-                var card = $("<div>").addClass("card");
-                var cardBody = $("<div>").addClass("card-body");
-                var cardTitle = $("<h3>").addClass("card-title").text(res.name + " " + startDate);
-                var temp = Math.round(res.main.temp);
-                var tempDisplay = $("<p>").addClass("card-text").text("tempture: " + temp + String.fromCharCode(176));
-                var humid = $("<p>").addClass("card-text").text("Humidity: " + res.main.humidity + "%");
-                var wind = $("<p>").addClass("card-text").text("Wind: " + res.wind.speed + "MPH");
-                // var weatherIcon = response.weather[0].icon;
-                // var image = $("<img>").attr("src", "https://openweathermap.org/img/wn/" + weatherIcon + ".png")
+                let temperature = Math.round(res.main.temp);
+                let windSpeed = res.wind.speed;
+                let humidity = res.main.humidity;
+                let cityDiv = $("<div class='city'>");
+                let header = $("<h4>").text(res.name + " " + startDate);
+                let pOne = $("<p>").text("Temperature: " + temperature + String.fromCharCode(176) + "F");
+                let pTwo = $("<p>").text(`Wind Speed: ${windSpeed}MPH`);
+                let pThree = $("<p>").text("Humidity: " + humidity + "%")
+
+                let color = "green";
+                let UVindex = res.value;
+                if(UVindex > 10){
+                    color = "red";
+                }
+                else if(UVindex > 4){
+                    color = "orange";
+                };
 
 
-                $("#dailyWeather").append(card.append(cardBody.append(cardTitle, tempDisplay, humid, wind)))
+                let uvSpan = $("<span>").text(res.value).css("color", color)
+                let pFour = $("<p>").text("UV Index: ").append(uvSpan);
+                cityDiv.append(header, pOne, pTwo, pThree, pFour);
+        
+
+                $("#weather-view").empty();
+                $("#weather-view").prepend(cityDiv);
 
                 getForecast(res.coord.lat, res.coord.lon);
                 // getUVIndex();
@@ -67,21 +75,36 @@ $(document).ready(function () {
             console.log(forecastRes)
 
             for(var i = 1; i < 6; i ++ ) {
-                console.log(forecastRes.daily[i])
+                // console.log(forecastRes.daily[i])
 
                 //create a card per day
+
+            //     $("#day-0").empty();
+            //     $("#day-1").empty();
+            //     $("#day-2").empty();
+            //     $("#day-3").empty();
+            //     $("#day-4").empty();
+                
+            //     let weather1 = $("<div class=day1>")
+            //     let date1 = $("<p>").text(day1);
+            //     let temp1 = $("<p>").text("Temperature: " + forecastRes.daily[0].temp.day + String.fromCharCode(176) + "F");
+                
+            //     weather1.append(date1, temp1);
+
+            //     $("#day1").prepend(weather1);
+
+
             }
         }
     })
-    }
+    };
 
 
-});
 
 //for loop for presisting the data onto index page 
 // for (var i = 0; i < localStorage.length; i++){
 //     var city = localStorage.getItem(i);
 
-
+});
 
 // need AJAX call for current, and 5-day/Uv index 
