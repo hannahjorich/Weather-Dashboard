@@ -81,6 +81,7 @@ $(document).ready(function () {
 
             for(var i = 1; i < 6; i ++ ) {
                 console.log(forecastRes.daily[i])
+            }
 
                 //create a card per day
 
@@ -89,27 +90,79 @@ $(document).ready(function () {
                 $("#day-2").empty();
                 $("#day-3").empty();
                 $("#day-4").empty();
-                
+
+                // ======DAY 1======
                 let weather1 = $("<div class=day1>")
                 let date1 = $("<p>").text(day1);
-                let temp1 = $("<p>").text("Temperature: " + forecastRes.daily[0].temp.day + String.fromCharCode(176) + "F");
+                var weatherIcon1 = $("<img>");
+                weatherIcon1.attr( "src","https://openweathermap.org/img/w/" + forecastRes.daily[0].weather[0].icon + ".png");
+                let temperature = Math.round(forecastRes.daily[0].temp.day);
+                let temp1 = $("<p>").text("Temp: " + temperature + String.fromCharCode(176) + "F");
+                let humid1 = $("<p>").text("Humidity: " + forecastRes.daily[0].humidity);
                 
-                weather1.append(date1, temp1);
+                weather1.append(date1, weatherIcon1, temp1, humid1);
 
                 $("#day1").prepend(weather1);
 
+                // ======DAY 2======
+                let weather2 = $("<div class=day2>")
+                let date2 = $("<p>").text(day2);
+                var weatherIcon2 = $("<img>");
+                weatherIcon2.attr( "src","https://openweathermap.org/img/w/" + forecastRes.daily[1].weather[0].icon + ".png");
+                let temperature2 = Math.round(forecastRes.daily[1].temp.day);
+                let temp2 = $("<p>").text("Temp: " + temperature2 + String.fromCharCode(176) + "F");
+                let humid2 = $("<p>").text("Humidity: " + forecastRes.daily[1].humidity);
+                
+                
+                weather2.append(date2, weatherIcon2, temp2, humid2);
 
-            }
+                $("#day2").prepend(weather2);
+
+                // ======DAY 3======
+                let weather3 = $("<div class=day3>")
+                let date3 = $("<p>").text(day3);
+                var weatherIcon3 = $("<img>");
+                weatherIcon3.attr( "src","https://openweathermap.org/img/w/" + forecastRes.daily[2].weather[0].icon + ".png");
+                let temperature3 = Math.round(forecastRes.daily[2].temp.day);
+                let temp3 = $("<p>").text("Temp: " + temperature3 + String.fromCharCode(176) + "F");
+                let humid3 = $("<p>").text("Humidity: " + forecastRes.daily[2].humidity);
+                
+                
+                weather3.append(date3, weatherIcon3, temp3, humid3);
+
+                $("#day3").prepend(weather3);
+
+                 // ======DAY 4======
+                let weather4 = $("<div class=day4>")
+                let date4 = $("<p>").text(day4);
+                var weatherIcon4 = $("<img>");
+                weatherIcon4.attr( "src","https://openweathermap.org/img/w/" + forecastRes.daily[3].weather[0].icon + ".png");
+                let temperature4 = Math.round(forecastRes.daily[3].temp.day);
+                let temp4 = $("<p>").text("Temp: " + temperature4 + String.fromCharCode(176) + "F");
+                let humid4 = $("<p>").text("Humidity: " + forecastRes.daily[3].humidity);
+                
+                weather4.append(date4, weatherIcon4, temp4, humid4);
+
+                $("#day4").prepend(weather4);
+
+                 // ======DAY 5======
+                 let weather5 = $("<div class=day5>")
+                 let date5 = $("<p>").text(day5);
+                 var weatherIcon5 = $("<img>");
+                 weatherIcon5.attr( "src","https://openweathermap.org/img/w/" + forecastRes.daily[4].weather[0].icon + ".png");
+                 let temperature5 = Math.round(forecastRes.daily[4].temp.day);
+                 let temp5 = $("<p>").text("Temp: " + temperature5 + String.fromCharCode(176) + "F");
+                 let humid5 = $("<p>").text("Humidity: " + forecastRes.daily[4].humidity);
+                 
+                 weather5.append(date5, weatherIcon5, temp5, humid5);
+ 
+                 $("#day5").prepend(weather5);
+ 
+ 
+
+
         }
     })
     };
 
-
-
-//for loop for presisting the data onto index page 
-// for (var i = 0; i < localStorage.length; i++){
-//     var city = localStorage.getItem(i);
-
 });
-
-// need AJAX call for current, and 5-day/Uv index 
