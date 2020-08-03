@@ -157,12 +157,30 @@ $(document).ready(function () {
                  weather5.append(date5, weatherIcon5, temp5, humid5);
  
                  $("#day5").prepend(weather5);
- 
- 
-
 
         }
     })
     };
+
+    $(document).on("click", ".city-btn", function () {
+        JSON.parse(localStorage.getItem("cities"));
+        let citySearch = $(this).text();
+        triggerSearch(citySearch);
+
+        renderSearchlist();
+    });
+    function renderSearchList() {
+        let searchList = JSON.parse(localStorage.getItem("cities"));
+        $("#search-list").empty();
+        if (searchList) {
+            for (i = 0; i < searchList.length; i++) {
+                let listBtn = $("<button>").addClass("btn btn-secondary city-btn").attr('id', 'cityname_' + (i + 1)).text(searchList[i]);
+                let listElem = $("<li>").attr('class', 'list-group-item');
+                listElem.append(listBtn);
+                $("#search-list").append(listElem);
+            }
+
+        }
+    }
 
 });
