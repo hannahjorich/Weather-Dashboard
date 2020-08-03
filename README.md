@@ -11,6 +11,7 @@ I was not able to get the cities to append as a list on the left-hand side. I al
 ## Deployed Links
 
 URL: https://hannahjorich.github.io/Weather-Dashboard/
+
 GitHub: https://github.com/hannahjorich/Weather-Dashboard
 
 ## User Story
